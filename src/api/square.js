@@ -1,10 +1,6 @@
 // Configure environment variables
 const dotenv = require('dotenv');
 dotenv.config({ path: __dirname + "/.." + "/.." + "/process.env" });
-
-const fs = require('fs')
-const moment = require('moment')
-
 const { Client, Environment, ApiError } = require('square')
 
 // Square authorization
@@ -17,17 +13,13 @@ const client = new Client({
 
 const { ordersApi } = client
 
-// Changing BigInt values into strings to be readable
-function bigInttoString(key, value) {
-    return typeof value === 'bigint' ? value.toString() : value
-}
-
 
 
 // Calling API and retrieving data
 async function getSalesData(itemName, startDate, endDate) {
     let donationSales = 0
     let data = []
+    let pagCursor = null
     try {
 
         let response = await client.ordersApi.searchOrders({
@@ -49,16 +41,6 @@ async function getSalesData(itemName, startDate, endDate) {
 
 
         });
-        // let orders = response.result.orders
-        // if (orders) {
-        //     orders.forEach(order => {
-        //         order.lineItems.forEach(item => {
-        //             if (item.name === itemName) {
-        //                 totalSales += parseInt(item.quantity) * (item.basePriceMoney.amount / 100); // Converting from cents to dollars
-        //             }
-        //         });
-        //     });
-        // }
         data = data.concat(response.result)
         let pagCursor = response.result.cursor
         while (pagCursor) {
@@ -82,31 +64,20 @@ async function getSalesData(itemName, startDate, endDate) {
 
 
             });
-            // orders = response.result.orders
-            // if (orders) {
-            //     orders.forEach(order => {
-            //         order.lineItems.forEach(item => {
-            //             if (item.name === itemName) {
-            //                 totalSales += parseInt(item.quantity) * (item.basePriceMoney.amount / 100); // Converting from cents to dollars
-            //             }
-            //         });
-            //     });
-            // }
             data = data.concat(response.result)
             pagCursor = response.result.cursor
         }
 
-        // redo this and maybe change data = statements as well
-        fs.writeFileSync('output.json', JSON.stringify(data, bigInttoString, 2), 'utf-8')
+
 
 
         // Loop to iterate through object and find donations
-        for (let i in data) {
-            for (let j in data[i].orders) {
-                if (data[i].orders[j].lineItems) {
-                    for (let k in data[i].orders[j].lineItems) {
-                        if (data[i].orders[j].lineItems[k].name == 'Donation') {
-                            donationSales += parseInt(data[i].orders[j].lineItems[k].grossSalesMoney.amount)
+        for (let i of data) {
+            for (let order of i.orders) {
+                if (order.lineItems) {
+                    for (let item of order.lineItems) {
+                        if (item.name == 'Donation') {
+                            donationSales += parseInt(item.grossSalesMoney.amount)
                         }
                     }
                 }
