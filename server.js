@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const moment = require('moment');
-const cron = require('node-cron')
 const { getSalesData } = require('./src/api/square');
 
 const app = express();
@@ -14,18 +13,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'src/views', 'index.html'));
 });
 
-// async function fetchDonationData() {
-//     try {
-//         let donationData = await getSalesData('Donation', startDate, endDate);
-//         console.log('data sent:', donationData);
-//         return donationData;
-//     } catch (e) {
-//         console.error('Failed to fetch donation data:', e);
-//         throw e;
-//     }
-// }
-
-// Express route to handle HTTP GET requests
 app.get('/api/donations', async (req, res) => {
     try {
         let donationData = await getSalesData('Donation', startDate, endDate);
