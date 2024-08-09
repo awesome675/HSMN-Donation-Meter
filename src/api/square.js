@@ -83,7 +83,7 @@ async function getSalesData(itemName, startDate, endDate) {
                 }
             }
         }
-        return (donationSales / 100)
+        return donationSales / 100
 
 
 
