@@ -73,19 +73,19 @@ async function getSalesData(itemName, startDate, endDate) {
 
 
         // Loop to iterate through object and find donations
-        for (let i of data) {
-            for (let order of i.orders) {
-                if (order.lineItems) {
-                    for (let item of order.lineItems) {
-                        if (item.name == 'Donation') {
-                            donationSales += parseInt(item.grossSalesMoney.amount)
-                        }
-                    }
-                }
-            }
-        }
-        return donationSales / 100
-        console.log('square data processed')
+        // for (let i of data) {
+        //     for (let order of i.orders) {
+        //         if (order.lineItems) {
+        //             for (let item of order.lineItems) {
+        //                 if (item.name == 'Donation') {
+        //                     donationSales += parseInt(item.grossSalesMoney.amount)
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // return donationSales / 100
+        console.log(data)
 
 
 
