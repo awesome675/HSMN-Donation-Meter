@@ -29,6 +29,7 @@ document.getElementById('content').hidden = true
 async function updateMeter() {
     try {
         let response = await fetch('/api/donations')
+        if (!response.ok) throw new Error('Network response was not ok');
         let data = await response.json()
 
         console.log('data received')
