@@ -84,7 +84,7 @@ async function getSalesData(itemName, startDate, endDate) {
         //         }
         //     }
         // }
-        return data
+        return data.length
 
 
 
