@@ -22,7 +22,9 @@ app.get('/api/donations', async (req, res) => {
         res.status(500).send('Failed to fetch donation data');
     }
 });
-
+app.get('/test/env', (req, res) => {
+    res.send(process.env.SQUARE_ACCESS_TOKEN)
+})
 
 
 
