@@ -1,7 +1,8 @@
 // Configure environment variables
-const dotenv = require('dotenv');
-dotenv.config({ path: __dirname + "/.." + "/.." + "/process.env" });
+// const dotenv = require('dotenv');
+// dotenv.config({ path: __dirname + "/.." + "/.." + "/process.env" });
 const { Client, Environment, ApiError } = require('square')
+
 
 // Square authorization
 const client = new Client({
